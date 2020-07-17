@@ -47,7 +47,19 @@ RUN cd / \
   git clone https://github.com/gamorosino/COVID-Net.git \
   && cd COVID-Net \
   && git checkout docker
-  
+
+
+# to cite COVID-Net
+#@misc{wang2020covidnet,
+#    title={COVID-Net: A Tailored Deep Convolutional Neural Network Design for Detection of COVID-19 Cases from Chest Radiography Images},
+#    author={Linda Wang, Zhong Qiu Lin and Alexander Wong},
+#    year={2020},
+#    eprint={2003.09871},
+#    archivePrefix={arXiv},
+#    primaryClass={cs.CV}
+#}
+ 
+
 #make it work under singularity 
 #https://wiki.ubuntu.com/DashAsBinSh 
 RUN ldconfig
