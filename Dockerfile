@@ -24,9 +24,27 @@ RUN apt-get update && apt-get install \
                      strace \
                      curl \
                      vim 
-                     
+
+## install Conda
+ENV PATH /opt/conda/bin:$PATH
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda2-py27_4.8.3-Linux-x86_64.sh -O ~/miniconda.sh && \
+    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh && \
+    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+    echo "conda activate base" >> ~/.bashrc
+
+## install Python Modules with Conda
+
+RUN  conda install -c anaconda python=3.6 scikit-learn numpy  \
+      && conda install -c conda-forge opencv matplotlib \
+      && conda install -c anaconda tensorflow-gpu=1.15.0 
+
+
+## Clone COVID-Net
+
 RUN cd / \
-  git clone https://github.com/gamorosino/COVID-Net \
+  git clone https://github.com/gamorosino/COVID-Net.git \
   && cd COVID-Net \
   && git checkout docker
   
