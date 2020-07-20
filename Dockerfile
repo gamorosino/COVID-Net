@@ -44,7 +44,7 @@ RUN  conda install -c anaconda python=3.6 scikit-learn numpy  \
 ## Clone COVID-Net
 
 RUN cd / \
-  git clone https://github.com/gamorosino/COVID-Net.git \
+  && git clone https://github.com/gamorosino/COVID-Net.git \
   && cd COVID-Net \
   && git checkout docker
 
