@@ -48,6 +48,16 @@ RUN cd / \
   && cd COVID-Net \
   && git checkout docker
 
+RUN  cd / \
+	&& /bin/bash -c 'source /COVID-Net/gdrive_download.sh;\
+	mkdir -p "/COVID-Net/models/";\
+	mkdir -p "/COVID-Net/models/COVIDNet-CXR3-B/";\
+	gdrive_download "https://drive.google.com/file/d/13FM9OV_jecYGU4TRZqi-ARMxiSzFedE6/view?usp=sharing"  "/COVID-Net/models/COVIDNet-CXR3-B/model-1545.data-00000-of-00001" ; \ 
+	gdrive_download "https://drive.google.com/file/d/1NaclbqBr3Y9XsDD8wKSy7XBEv4PtSsGb/view?usp=sharing"  "/COVID-Net/models/COVIDNet-CXR3-B/model-1545.index" ; \ 
+	gdrive_download "https://drive.google.com/file/d/1uYcH6SCNkmD8SSBSP3x4LNnbC8k_5MfW/view?usp=sharing"  "/COVID-Net/models/COVIDNet-CXR3-B/model-1545.meta" ; \ 
+	gdrive_download "https://drive.google.com/file/d/113THwXyG8WH5aQfId1na7NARGn5m8qDG/view?usp=sharing"  "/COVID-Net/models/COVIDNet-CXR3-B/checkpoint" ; \ 
+	mkdir "/data"; \
+	gdrive_download "https://drive.google.com/file/d/1S2DCDac9g1FoUBjQgo-_8TZoI3lQX0Cp/view?usp=sharing" "/data/PROVA.jpg" ;'
 
 # to cite COVID-Net
 #@misc{wang2020covidnet,
