@@ -56,7 +56,7 @@ SCRIPT=`realpath -s $0`
 dir_script=`dirname $SCRIPT`
 
 
-COVIDNet_DIR=${dir_script} #"/home/gamorosino/local/COVID-Net"
+COVIDNet_DIR=${dir_script} 
 COVIDNET_models=${COVIDNet_DIR}"/models/"
 [ -z ${COVIDNet_model} ] && { COVIDNet_model="COVIDNet-CXR3-B"; }
 weightspath=${COVIDNET_models}"/"${COVIDNet_model}
@@ -76,31 +76,35 @@ printf "" > ${output_txt}
 
 if [ -d ${input_path} ]; then
 	temp_txt=${input_path}"/COVIDNet_inference"$( date +%s )".txt"
-	for i in $( ls ${input_path} ); do  printf "Image: "${i} ; echo "Image: "${i} >> ${temp_txt} ; 
+	for i in $( ls ${input_path} ); do  \
+		printf "Image: "${i}" "; 
 		python ${COVIDNet_DIR}"/inference.py"     \
 						  --weightspath ${weightspath}     \
 						  --metaname "model.meta"     \
 						  --ckptname $ckptname    \
 						  --imagepath ${input_path}"/"${i} ${ocommands} \
 						  1>> ${temp_txt} 2>> /dev/null  ; \
-						  cat ${temp_txt} | grep "Image" >> ${output_txt};  \
-						  cat ${temp_txt} | grep "Normal" >> ${output_txt}; \
-						  prediction=$( cat ${temp_txt} | grep   "Prediction" ) ; \
-						  echo ${prediction} >> ${output_txt} ; echo " - "${prediction};  \
+						  printf "Image: "$( basename ${i} )" ; "  >> ${output_txt}
+						  prediction=$( cat ${temp_txt} | grep   "Prediction" ) ; 
+                                                  Confidence=$( cat ${temp_txt} | grep   "Normal" ) ;  
+						  echo "- "${prediction}" - Confidence: "${Confidence}; 
+						  echo ${prediction}" ; Confidence: "${Confidence} >> ${output_txt} ;  
 						  rm ${temp_txt}; 
 	done
 
 else
 	temp_txt=$( dirname ${input_path} )"/COVIDNet_inference"$( date +%s )".txt"
+	printf "Image: "$( basename ${input_path} )" "; 
 	python ${COVIDNet_DIR}"/inference.py"     --weightspath ${weightspath}     \
 						  --metaname "model.meta"     \
 						  --ckptname $ckptname    \
 						  --imagepath ${input_path} ${ocommands} \
 						  1>> ${temp_txt}  2>> /dev/null   ; \
-						  cat ${temp_txt} | grep "Image" >> ${output_txt};  \
-						  cat ${temp_txt} | grep "Normal" >> ${output_txt}; \
+						  printf "Image: "$( basename ${input_path} )" ; "  >> ${output_txt};  \
 						  prediction=$( cat ${temp_txt} | grep   "Prediction" ) ; \
-						  echo ${prediction} >> ${output_txt} ; echo " - "${prediction};  \
-						  rm ${temp_txt};
+						  Confidence=$( cat ${temp_txt} | grep   "Normal" ) ; \
+						  echo "- "${prediction}" - Confidence: "${Confidence}; \
+						  echo ${prediction}" ; Confidence: "${Confidence} >> ${output_txt} ;
+				                  rm ${temp_txt};
 
 fi
