@@ -47,12 +47,13 @@ RUN  conda install -c anaconda python=3.6 scikit-learn numpy  \
 RUN cd / \
   && git clone https://github.com/gamorosino/COVID-Net.git \
   && cd COVID-Net \
-  && git checkout docker
+  && git checkout b666badb51bc50588f3eb94c939fb1f26e1e0572 
+#docker
 
 ## Download Checkpoints
 
 RUN  cd / \
-	&& /bin/bash -c 'source /COVID-Net/gdrive_download.sh;\
+	&& /bin/bash -c 'ls /COVID-Net/;source /COVID-Net/gdrive_download.sh;\
 	mkdir -p "/COVID-Net/models/";\
 	mkdir -p "/COVID-Net/models/COVIDNet-CXR3-B/";\
 	gdrive_download "https://drive.google.com/file/d/13FM9OV_jecYGU4TRZqi-ARMxiSzFedE6/view?usp=sharing"  "/COVID-Net/models/COVIDNet-CXR3-B/model-1545.data-00000-of-00001" ; \ 
