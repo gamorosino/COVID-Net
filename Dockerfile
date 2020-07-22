@@ -52,7 +52,7 @@ RUN cd / \
 ## Download Checkpoints
 
 RUN  cd / \
-	&& /bin/bash -c 'source /COVID-Net/gdrive_download.sh;\
+	&& /bin/bash -c 'ls /COVID-Net/;source /COVID-Net/gdrive_download.sh;\
 	mkdir -p "/COVID-Net/models/";\
 	mkdir -p "/COVID-Net/models/COVIDNet-CXR3-B/";\
 	gdrive_download "https://drive.google.com/file/d/13FM9OV_jecYGU4TRZqi-ARMxiSzFedE6/view?usp=sharing"  "/COVID-Net/models/COVIDNet-CXR3-B/model-1545.data-00000-of-00001" ; \ 
