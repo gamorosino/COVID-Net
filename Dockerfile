@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install \
                      vim 
 
 ## install Conda
+
 ENV PATH /opt/conda/bin:$PATH
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda2-py27_4.8.3-Linux-x86_64.sh -O ~/miniconda.sh && \
     /bin/bash ~/miniconda.sh -b -p /opt/conda && \
@@ -47,6 +48,8 @@ RUN cd / \
   && git clone https://github.com/gamorosino/COVID-Net.git \
   && cd COVID-Net \
   && git checkout docker
+
+## Download Checkpoints
 
 RUN  cd / \
 	&& /bin/bash -c 'source /COVID-Net/gdrive_download.sh;\
