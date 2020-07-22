@@ -76,35 +76,39 @@ printf "" > ${output_txt}
 
 if [ -d ${input_path} ]; then
 	temp_txt=${input_path}"/COVIDNet_inference"$( date +%s )".txt"
+	temp_err=${input_path}"/COVIDNet_inference"$( date +%s )".err"
+	printf "" >> $temp_err;
 	for i in $( ls ${input_path} ); do  \
 		printf "Image: "${i}" "; 
 		python ${COVIDNet_DIR}"/inference.py"     \
-						  --weightspath ${weightspath}     \
-						  --metaname "model.meta"     \
-						  --ckptname $ckptname    \
-						  --imagepath ${input_path}"/"${i} ${ocommands} \
-						  1>> ${temp_txt} 2>> /dev/null  ; \
-						  printf "Image: "$( basename ${i} )" ; "  >> ${output_txt}
-						  prediction=$( cat ${temp_txt} | grep   "Prediction" ) ; 
-                                                  Confidence=$( cat ${temp_txt} | grep   "Normal" ) ;  
-						  echo "- "${prediction}" - Confidence: "${Confidence}; 
-						  echo ${prediction}" ; Confidence: "${Confidence} >> ${output_txt} ;  
-						  rm ${temp_txt}; 
+					--weightspath ${weightspath}     \
+				    	--metaname "model.meta"     \
+					--ckptname $ckptname    \
+					--imagepath ${input_path}"/"${i} ${ocommands} \
+					1>> ${temp_txt} 2>> ${temp_err}  ; \
+					printf "Image: "$( basename ${i} )" ; "  >> ${output_txt}
+					prediction=$( cat ${temp_txt} | grep   "Prediction" ) ; 
+                                        Confidence=$( cat ${temp_txt} | grep   "Normal" ) ;  
+					echo "- "${prediction}" - Confidence: "${Confidence}; 
+					echo ${prediction}" ; Confidence: "${Confidence} >> ${output_txt} ;  
+					rm ${temp_txt}; 
 	done
 
 else
 	temp_txt=$( dirname ${input_path} )"/COVIDNet_inference"$( date +%s )".txt"
+	temp_err=$( dirname ${input_path} )"/COVIDNet_inference"$( date +%s )".err"
+	printf "" >> $temp_err;
 	printf "Image: "$( basename ${input_path} )" "; 
-	python ${COVIDNet_DIR}"/inference.py"     --weightspath ${weightspath}     \
-						  --metaname "model.meta"     \
-						  --ckptname $ckptname    \
-						  --imagepath ${input_path} ${ocommands} \
-						  1>> ${temp_txt}  2>> /dev/null   ; \
-						  printf "Image: "$( basename ${input_path} )" ; "  >> ${output_txt};  \
-						  prediction=$( cat ${temp_txt} | grep   "Prediction" ) ; \
-						  Confidence=$( cat ${temp_txt} | grep   "Normal" ) ; \
-						  echo "- "${prediction}" - Confidence: "${Confidence}; \
-						  echo ${prediction}" ; Confidence: "${Confidence} >> ${output_txt} ;
-				                  rm ${temp_txt};
-
+	python ${COVIDNet_DIR}"/inference.py" \
+					--weightspath ${weightspath}     \
+					--metaname "model.meta"     \
+					--ckptname $ckptname    \
+					--imagepath ${input_path} ${ocommands} \
+					1>> ${temp_txt}  2>> ${temp_err}   ; \
+					printf "Image: "$( basename ${input_path} )" ; "  >> ${output_txt};  \
+					prediction=$( cat ${temp_txt} | grep   "Prediction" ) ; \
+					Confidence=$( cat ${temp_txt} | grep   "Normal" ) ; \
+					echo "- "${prediction}" - Confidence: "${Confidence}; \
+					echo ${prediction}" ; Confidence: "${Confidence} >> ${output_txt} ;
+				        rm ${temp_txt};
 fi
