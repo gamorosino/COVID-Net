@@ -75,8 +75,10 @@ ckptname=$( basename ${model_str:0:${sind}} )
 printf "" > ${output_txt}
 
 if [ -d ${input_path} ]; then
-	temp_txt=${input_path}"/COVIDNet_inference"$( date +%s )".txt"
-	temp_err=${input_path}"/COVIDNet_inference"$( date +%s )".err"
+	time_=$( date +%s )
+	temp_txt=${input_path}"/"$( fbasename ${input_path} )"_COVIDNet_inference"${time_}".txt"
+	temp_err=${input_path}"/"$( fbasename ${input_path} )"_COVIDNet_inference"${time_}".err"
+	temp_log=${input_path}"/"$( fbasename ${input_path} )"_COVIDNet_inference"${time_}".log"
 	printf "" >> $temp_err;
 	for i in $( ls ${input_path} ); do  \
 		printf "Image: "${i}" "; 
@@ -91,12 +93,15 @@ if [ -d ${input_path} ]; then
                                         Confidence=$( cat ${temp_txt} | grep   "Normal" ) ;  
 					echo "- "${prediction}" - Confidence: "${Confidence}; 
 					echo ${prediction}" ; Confidence: "${Confidence} >> ${output_txt} ;  
+					cat ${temp_txt} >> ${temp_log};
 					rm ${temp_txt}; 
 	done
 
 else
-	temp_txt=$( dirname ${input_path} )"/COVIDNet_inference"$( date +%s )".txt"
-	temp_err=$( dirname ${input_path} )"/COVIDNet_inference"$( date +%s )".err"
+	time_=$( date +%s )
+	temp_txt=$( dirname ${input_path} )"/"$( fbasename ${input_path} )"COVIDNet_inference"${time_}".txt"
+	temp_err=$( dirname ${input_path} )"/"$( fbasename ${input_path} )"COVIDNet_inference"${time_}".err"
+	temp_log=$( dirname ${input_path} )"/"$( fbasename ${input_path} )"COVIDNet_inference"${time_}".log"
 	printf "" >> $temp_err;
 	printf "Image: "$( basename ${input_path} )" "; 
 	python ${COVIDNet_DIR}"/inference.py" \
@@ -110,5 +115,6 @@ else
 					Confidence=$( cat ${temp_txt} | grep   "Normal" ) ; \
 					echo "- "${prediction}" - Confidence: "${Confidence}; \
 					echo ${prediction}" ; Confidence: "${Confidence} >> ${output_txt} ;
+					cp ${temp_txt}  ${temp_log}
 				        rm ${temp_txt};
 fi
