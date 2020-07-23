@@ -65,7 +65,7 @@ model_str=${model_v[0]}
 sind=$( str_index ${model_v[0]} "." )
 ckptname=$( basename ${model_str:0:${sind}} )
 [ -z ${output_txt} ] && \
-	{ output_txt=$( dirname ${input_path} )'/'$( fbasename ${input_path} )"_"${COVIDNet_model}".txt"; }
+	{ output_txt=$( dirname ${input_path} )'/'$( fbasename ${input_path} )"_"${COVIDNet_model}"_inference_output.txt"; }
 
 ( [ "${COVIDNet_model}" ==  "COVIDNet-CXR-Large"  ] || \
 	[  "${COVIDNet_model}" ==  "COVIDNet-CXR-Small" ] ) &&\
@@ -75,10 +75,12 @@ ckptname=$( basename ${model_str:0:${sind}} )
 printf "" > ${output_txt}
 
 if [ -d ${input_path} ]; then
-	time_=$( date +%s )
-	temp_txt=${input_path}"/"$( fbasename ${input_path} )"_COVIDNet_inference"${time_}".txt"
-	temp_err=${input_path}"/"$( fbasename ${input_path} )"_COVIDNet_inference"${time_}".err"
-	temp_log=${input_path}"/"$( fbasename ${input_path} )"_COVIDNet_inference"${time_}".log"
+	time_=$( date +%D_%T )
+	time_=${time_//'/'/'_'}
+	time_=${time_//':'/'_'}
+	temp_txt=${input_path}"/"$( fbasename ${input_path} )"_COVIDNet_inference_"${time_}".txt"
+	temp_err=${input_path}"/"$( fbasename ${input_path} )"_COVIDNet_inference_"${time_}".err"
+	temp_log=${input_path}"/"$( fbasename ${input_path} )"_COVIDNet_inference_"${time_}".log"
 	printf "" >> $temp_err;
 	for i in $( ls ${input_path} ); do  \
 		printf "Image: "${i}" "; 
@@ -98,10 +100,12 @@ if [ -d ${input_path} ]; then
 	done
 
 else
-	time_=$( date +%s )
-	temp_txt=$( dirname ${input_path} )"/"$( fbasename ${input_path} )"COVIDNet_inference"${time_}".txt"
-	temp_err=$( dirname ${input_path} )"/"$( fbasename ${input_path} )"COVIDNet_inference"${time_}".err"
-	temp_log=$( dirname ${input_path} )"/"$( fbasename ${input_path} )"COVIDNet_inference"${time_}".log"
+	time_=$( date +%D_%T )
+	time_=${time_//'/'/'_'}
+	time_=${time_//':'/'_'}
+	temp_txt=$( dirname ${input_path} )"/"$( fbasename ${input_path} )"_"${COVIDNet_model}"_inference_"${time_}".txt"
+	temp_err=$( dirname ${input_path} )"/"$( fbasename ${input_path} )"_"${COVIDNet_model}"_inference_"${time_}".err"
+	temp_log=$( dirname ${input_path} )"/"$( fbasename ${input_path} )"_"${COVIDNet_model}"_inference_"${time_}".log"
 	printf "" >> $temp_err;
 	printf "Image: "$( basename ${input_path} )" "; 
 	python ${COVIDNet_DIR}"/inference.py" \
