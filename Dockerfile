@@ -78,12 +78,12 @@ RUN  cd / \
 
 #--user
 RUN cd / \
-	&& /bin/bash -c  "python3 -m pip install  virtualenv; \
+	&& /bin/bash -c  'python3 -m pip install  virtualenv; \
 	python3 -m venv env ; \
 	source env/bin/activate ; \
 	pip install tensorflow-io ; \
 	pip install tensorflow==2.2.0 ; \
-	deactivate ; "
+	deactivate ; '
 
  
 
