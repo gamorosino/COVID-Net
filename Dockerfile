@@ -48,8 +48,8 @@ RUN  conda install -c anaconda python=3.6 scikit-learn numpy  \
 RUN cd / \
   && git clone https://github.com/gamorosino/COVID-Net.git \
   && cd COVID-Net \
-  && git checkout f1d57e1eab9fe75d9a657040d949c22b68346cea  
-#docker
+  && git checkout docker
+#f1d57e1eab9fe75d9a657040d949c22b68346cea  
 
 ## Download Checkpoints
 
@@ -78,12 +78,12 @@ RUN  cd / \
 
 #--user
 RUN cd / \
-	&& python3 -m pip install  virtualenv \
-	&& python3 -m venv env \
-	&& source env/bin/activate \
-	&& pip install tensorflow-io \
-	&& pip install tensorflow==2.2.0 \
-	&& deactivate
+	&& /bin/bash -c  "python3 -m pip install  virtualenv; \
+	python3 -m venv env ; \
+	source env/bin/activate ; \
+	pip install tensorflow-io ; \
+	pip install tensorflow==2.2.0 ; \
+	deactivate ; "
 
  
 
