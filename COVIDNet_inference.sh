@@ -127,10 +127,10 @@ case "${file_type}" in
 
 	"dicom")
 
-		source  /home/${USER}/local/localenvs/tfiovenv/bin/activate
+		source env/bin/activate
 		source ${utilities}
 		input_path_jpg=$( dirname ${input_path} )"/"$( fbasename ${input_path} )".jpg"
-		imm_dcm2jpg ${input_path} ${input_path_jpg}
+		imm_dcm2jpg ${input_path} 
 		input_path=${input_path_jpg}
 		deactivate
 	;;

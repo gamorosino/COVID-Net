@@ -23,7 +23,8 @@ RUN apt-get update && apt-get install \
                      jq \
                      strace \
                      curl \
-                     vim 
+                     vim \
+		     python3-pip
 
 ## install Conda
 
@@ -72,6 +73,18 @@ RUN  cd / \
 #    archivePrefix={arXiv},
 #    primaryClass={cs.CV}
 #}
+
+## Create virtual env
+
+#--user
+RUN cd / \
+	&& python3 -m pip install  virtualenv \
+	&& python3 -m venv env \
+	&& source env/bin/activate \
+	&& pip install tensorflow-io \
+	&& pip install tensorflow==2.2.0 \
+	&& deactivate
+
  
 
 #make it work under singularity 
