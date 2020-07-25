@@ -83,6 +83,8 @@ RUN cd / \
 	python3 -m pip install  virtualenv; \
 	python3 -m venv env ; \
 	source env/bin/activate ; \
+	pip install --upgrade pip; \
+	pip install opencv-python ; \
 	pip install tensorflow-io ; \
 	pip install tensorflow==2.2.0 ; \
 	deactivate ; '
