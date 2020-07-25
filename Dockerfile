@@ -24,7 +24,8 @@ RUN apt-get update && apt-get install \
                      strace \
                      curl \
                      vim \
-		     python3-pip
+		     python3-pip \
+		     file
 
 ## install Conda
 
@@ -78,7 +79,8 @@ RUN  cd / \
 
 #--user
 RUN cd / \
-	&& /bin/bash -c  'python3 -m pip install  virtualenv; \
+	&& /bin/bash -c  'pip install --upgrade pip;\
+	python3 -m pip install  virtualenv; \
 	python3 -m venv env ; \
 	source env/bin/activate ; \
 	pip install tensorflow-io ; \
