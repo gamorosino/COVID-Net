@@ -119,6 +119,15 @@ printf "" > ${output_txt}
 #
 #else
 
+# define text files
+time_=$( date +%D_%T )
+time_=${time_//'/'/'_'}
+time_=${time_//':'/'_'}
+temp_txt=$( dirname ${input_path} )"/"$( fbasename ${input_path} )"_"${COVIDNet_model}"_inference_"${time_}".txt"
+temp_err=$( dirname ${input_path} )"/"$( fbasename ${input_path} )"_"${COVIDNet_model}"_inference_"${time_}".err"
+temp_log=$( dirname ${input_path} )"/"$( fbasename ${input_path} )"_"${COVIDNet_model}"_inference_"${time_}".log"
+printf "" >> $temp_err;
+
 # check file type
 file_mime=$( file --mime-type -b  ${input_path} )
 file_type=$( echo $file_mime | rev | cut -d"/" -f1  | rev )
@@ -130,32 +139,26 @@ case "${file_type}" in
 		source env/bin/activate
 		source ${utilities}
 		input_path_jpg=$( dirname ${input_path} )"/"$( fbasename ${input_path} )".jpg"
-		imm_dcm2jpg ${input_path} 
+		echo "Conversion from DICOM to JPEG..."
+		imm_dcm2jpg ${input_path} 1>> ${temp_txt}  2>> ${temp_err}   ;
 		input_path=${input_path_jpg}
 		deactivate
+		echo "Perform inference on the image:"
 	;;
 
 	"jpeg")
 
-		printf ""
+		echo "Perform inference on the image:"
 
 	;;
 
         *)
-        # Do whatever you want with extra options
-        [ -z $file_type ] || { fail "Unsupported file type '$file_type'";} 
+        	[ -z $file_type ] || { fail "Unsupported file type '$file_type'";} 
         ;;
     esac
 
-# define text files
-time_=$( date +%D_%T )
-time_=${time_//'/'/'_'}
-time_=${time_//':'/'_'}
-temp_txt=$( dirname ${input_path} )"/"$( fbasename ${input_path} )"_"${COVIDNet_model}"_inference_"${time_}".txt"
-temp_err=$( dirname ${input_path} )"/"$( fbasename ${input_path} )"_"${COVIDNet_model}"_inference_"${time_}".err"
-temp_log=$( dirname ${input_path} )"/"$( fbasename ${input_path} )"_"${COVIDNet_model}"_inference_"${time_}".log"
-printf "" >> $temp_err;
-printf "Image: "$( basename ${input_path} )" "; 
+sleep 1
+printf "Image: "$( fbasename ${input_path} )" "; 
 
 # perform prediction
 python ${COVIDNet_DIR}"/inference.py" \
@@ -164,12 +167,15 @@ python ${COVIDNet_DIR}"/inference.py" \
 				--ckptname $ckptname    \
 				--imagepath ${input_path} ${ocommands} \
 				1>> ${temp_txt}  2>> ${temp_err}   ; \
-				printf "Image: "$( basename ${input_path} )" ; "  >> ${output_txt};  \
+				printf "Image: "$( fbasename ${input_path} )" ; "  >> ${output_txt};  \
 				prediction=$( cat ${temp_txt} | grep   "Prediction" ) ; \
 				Confidence=$( cat ${temp_txt} | grep   "Normal" ) ; \
-				echo "- "${prediction}" - Confidence: "${Confidence}; \
+				printf " -  ${prediction} "
+				sleep 1.5
+				echo " -  Confidence: "${Confidence}; \
 				echo ${prediction}" ; Confidence: "${Confidence} >> ${output_txt} ;
 				cp ${temp_txt}  ${temp_log}
 			        rm ${temp_txt};
+				sleep 0.5
 				[ -z ${input_path_jpg} ] || { rm ${input_path_jpg} ; }
 
