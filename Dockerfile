@@ -63,7 +63,8 @@ RUN  cd / \
 	gdrive_download "https://drive.google.com/file/d/1uYcH6SCNkmD8SSBSP3x4LNnbC8k_5MfW/view?usp=sharing"  "/COVID-Net/models/COVIDNet-CXR3-B/model.meta" ; \ 
 	gdrive_download "https://drive.google.com/file/d/113THwXyG8WH5aQfId1na7NARGn5m8qDG/view?usp=sharing"  "/COVID-Net/models/COVIDNet-CXR3-B/checkpoint" ; \ 
 	mkdir "/data"; \
-	gdrive_download "https://drive.google.com/file/d/1S2DCDac9g1FoUBjQgo-_8TZoI3lQX0Cp/view?usp=sharing" "/data/PROVA.jpg" ;'
+	gdrive_download "https://drive.google.com/file/d/1S2DCDac9g1FoUBjQgo-_8TZoI3lQX0Cp/view?usp=sharing" "/data/PROVA.jpg" ;\
+	gdrive_download "https://drive.google.com/file/d/1SfsFETS0FzVj4bsELUL0c1g6RXPw7xzK/view?usp=sharing" "/data/PROVA_DCM" ;'
 
 # to cite COVID-Net
 #@misc{wang2020covidnet,
