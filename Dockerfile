@@ -64,7 +64,8 @@ RUN  cd / \
 	gdrive_download "https://drive.google.com/file/d/113THwXyG8WH5aQfId1na7NARGn5m8qDG/view?usp=sharing"  "/COVID-Net/models/COVIDNet-CXR3-B/checkpoint" ; \ 
 	mkdir "/data"; \
 	gdrive_download "https://drive.google.com/file/d/1S2DCDac9g1FoUBjQgo-_8TZoI3lQX0Cp/view?usp=sharing" "/data/PROVA.jpg" ;\
-	gdrive_download "https://drive.google.com/file/d/12bo_LI4nZUrDK_mbugpQ41-2NBXO4yOS/view?usp=sharing" "/data/PROVA.dcm" ;'
+	gdrive_download "https://drive.google.com/file/d/12bo_LI4nZUrDK_mbugpQ41-2NBXO4yOS/view?usp=sharing" "/data/PROVA_DICOM.dcm" ;\
+	gdrive_download "https://drive.google.com/file/d/1X_7y6koYXqRRD3ElTMPqpjYPZmpc7mRQ/view?usp=sharing" "/data/PROVA_PNG.png" ;'
 
 # to cite COVID-Net
 #@misc{wang2020covidnet,

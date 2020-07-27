@@ -146,10 +146,24 @@ case "${file_type}" in
 		echo "Perform inference on the image:"
 	;;
 
-	"jpeg")
+
+	"png")
+
+		source env/bin/activate
+		source ${utilities}
+		input_path_jpg=$( dirname ${input_path} )"/"$( fbasename ${input_path} )".jpg"
+		echo "Conversion from PNG to JPEG..."
+		imm_png2jpg ${input_path} 1>> ${temp_txt}  2>> ${temp_err}   ;
+		input_path=${input_path_jpg}
+		deactivate
 
 		echo "Perform inference on the image:"
 
+	;;
+
+	"jpeg")
+
+		echo "Perform inference on the image:"
 	;;
 
         *)

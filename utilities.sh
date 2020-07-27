@@ -92,7 +92,7 @@ imm_dcm2jpg () {
 
 
 		if [ $# -lt 1 ]; then							# usage dello script							
-		    echo $0: usage: "imm_dcm2jpg <dcm_path> [<outputdir] "		
+		    echo $0: usage: "imm_dcm2jpg <dcm_path> [<outputdir>] "		
 		    return 1
 		fi
 
@@ -109,6 +109,32 @@ imm_dcm2jpg () {
 		else
 			python -c "import sys;sys.path.append('$SCRIPT_DIR');	\
 			from ${modulepy} import dcm2jpg; dcm2jpg('$dcm_path','${outputdir}');";
+		fi
+
+
+		};
+
+imm_png2jpg () {
+
+
+		if [ $# -lt 1 ]; then							# usage dello script							
+		    echo $0: usage: "imm_png2jpg <png_path> [<outputdir>] "		
+		    return 1
+		fi
+
+		local png_path=$1
+		local outputdir=$2
+		local modulepy=$( fbasename ${pyutilities} )
+		local scriptpydir=$( dirname ${pyutilities} )
+		
+		[ -z ${outputdir} ] &&  { outputdir=None;}
+		
+		if [ "${outputdir}" == "None" ]; then
+			python -c "import sys;sys.path.append('$SCRIPT_DIR');\
+			from ${modulepy} import png2jpg; dcm2jpg('${png_path}');"; 
+		else
+			python -c "import sys;sys.path.append('$SCRIPT_DIR');	\
+			from ${modulepy} import png2jpg; dcm2jpg('$png_path','${outputdir}');";
 		fi
 
 
