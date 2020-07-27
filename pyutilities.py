@@ -69,10 +69,9 @@ def png2jpg(path_input0,outputpath=None):
 			pass
        
 	image = cv2.imread(path_input0)
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-	
+	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 	jpg_file=outputpath + "/" +  os.path.splitext(os.path.basename(path_input0))[0]+".jpg" 
-        cv2.imwrite(jpg_file, gray)
+	cv2.imwrite(jpg_file, gray)
 	return
 
 def dcm2jpg(path_input0,outputpath=None):

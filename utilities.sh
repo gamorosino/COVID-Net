@@ -131,10 +131,10 @@ imm_png2jpg () {
 		
 		if [ "${outputdir}" == "None" ]; then
 			python -c "import sys;sys.path.append('$SCRIPT_DIR');\
-			from ${modulepy} import png2jpg; dcm2jpg('${png_path}');"; 
+			from ${modulepy} import png2jpg; png2jpg('${png_path}');"; 
 		else
 			python -c "import sys;sys.path.append('$SCRIPT_DIR');	\
-			from ${modulepy} import png2jpg; dcm2jpg('$png_path','${outputdir}');";
+			from ${modulepy} import png2jpg; png2jpg('$png_path','${outputdir}');";
 		fi
 
 
