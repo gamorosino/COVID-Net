@@ -50,7 +50,7 @@ RUN cd / \
   && git clone https://github.com/gamorosino/COVID-Net.git \
   && cd COVID-Net \
   && git checkout docker \
-  && RUN chmod a+x COVIDNet_inference.sh
+  && chmod a+x COVIDNet_inference.sh
 
 ## Download Checkpoints
 
