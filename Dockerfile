@@ -49,8 +49,8 @@ RUN  conda install -c anaconda python=3.6 scikit-learn numpy  \
 RUN cd / \
   && git clone https://github.com/gamorosino/COVID-Net.git \
   && cd COVID-Net \
-  && git checkout docker
-#f1d57e1eab9fe75d9a657040d949c22b68346cea  
+  && git checkout docker \
+  && RUN chmod a+x COVIDNet_inference.sh
 
 ## Download Checkpoints
 
