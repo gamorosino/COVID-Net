@@ -87,7 +87,7 @@ RUN cd / \
 	source env/bin/activate ; \
 	pip install --upgrade pip; \
 	pip install opencv-python ; \
-	pip install tensorflow-io ; \
+	pip install tensorflow-io==0.11.0 ; \
 	pip install tensorflow==2.2.0 ; \
 	deactivate ; '
 
